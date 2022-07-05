@@ -6,7 +6,7 @@ const cors = require("cors")
 
 const app = express()
 
-app.use(cors)
+app.use(cors())
 app.use(express.json())
 
 async function main(){
@@ -14,7 +14,8 @@ async function main(){
     console.log("connected to database")
 
     app.get("/", function(req,res){
-        console.log("Connected to database\n", db)
+        console.log("Connected.")
+        res.send("Server is running.")
     })
 
 }
