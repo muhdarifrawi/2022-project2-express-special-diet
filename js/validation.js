@@ -17,6 +17,7 @@ function check(res, req) {
 }
 
 function checkStallName(req) {
+    console.log(req)
     let stallName = req.stallName
     if (stallName.trim().length === 0) {
         errors["stallName"] = "Stall name cannot be left empty."
@@ -103,8 +104,25 @@ function checkImages(req){
 }
 
 function checkOpeningHours(req){
-    let isUnsure = req.openingHours.map(({day, unsure}) => ({[day]:unsure}) )
-    console.log(isUnsure)
+    console.log("=========starts here ==============")
+    let isUnsure = req.openingHours.filter(k => k.unsure == false)
+    console.log("isUnsure here:\n",isUnsure)
+    isUnsure.forEach(e => {
+        console.log(e.time)
+        if(e.time.trim() == ""){
+            errors["time"] = "Time cannot be left empty."
+        }
+        if(e.time.trim().length > 19){
+            errors["time"] = "Time length too long."
+        }
+        if( e.time.trim().toLowerCase().includes("am") == false ||
+            e.time.trim().toLowerCase().includes("pm") == false ||
+            e.time.trim().toLowerCase().includes("-") == false  ||
+            e.time.trim().match(/\:/g).length < 2
+        ){
+            errors["time"] = "Time must be in 'hh:mm am - hh:mm pm' format."
+        }
+    });
 }
 
 function isAlphaNumeric(str) {
