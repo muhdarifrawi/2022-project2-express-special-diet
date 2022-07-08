@@ -11,26 +11,37 @@ app.use(cors())
 app.use(express.json())
 
 
-async function main(){
-    const db = await MongoUtil.connect(MONGO_URI, "stalls")
+async function main() {
+    const db = await MongoUtil.connect(MONGO_URI, "express-special-diet")
     console.log("connected to database")
 
-    app.get("/", function(req,res){
+    app.get("/", function (req, res) {
         console.log("Connected.")
         res.send("Server is running.")
     })
 
-    app.post("/stalls",async function(req,res,next){
-        
-        let validated = validate.check(res,req.body)
+    app.post("/stalls", async function (req, res, next) {
+
+        let validated = validate.check(res, req.body)
         let errors = validated[0]
         let data = validated[1]
         if (Object.keys(errors).length != 0) {
             return res.status(400).send(errors)
         }
         else {
-            console.log(data)
-            return res.status(200).send(data)
+            try {
+                let result = await db.collection("stalls").insertOne(data);
+                console.log(data)
+                return res.status(200).send(result)
+            }
+            catch (e) {
+                res.status(500).send({
+                    error: "Internal server error. Please contact administrator"
+                });
+                console.log(e);
+            }
+
+            
         }
     })
 
@@ -38,12 +49,12 @@ async function main(){
 
 main()
 
-app.listen(3000, function(err){
-    if(err){
+app.listen(3000, function (err) {
+    if (err) {
         console.log(err)
     }
-    else{
+    else {
         console.log("Server has started")
     }
-    
+
 })

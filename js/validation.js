@@ -30,7 +30,9 @@ function check(res, req) {
     checkLocation(req)
     checkFoodType(req)
     checkCuisine(req)
+    checkMenu(req)
     checkPriceRange(req)
+    checkImages(req)
     checkOpeningHours(req)
 
     return [errors, data]
@@ -149,6 +151,15 @@ function checkCuisine(req){
     }
     let cuisine = req.cuisine
     data["cuisine"] = cuisine
+}
+
+function checkMenu(req){
+    let menu = req.menu
+    if(menu.length == 0){
+        errors["menu"] = "Menu should have one selection minimally." 
+        return
+    }
+    data["menu"] = menu    
 }
 
 function checkPriceRange(req){
