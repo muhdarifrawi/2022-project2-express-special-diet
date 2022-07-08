@@ -32,12 +32,8 @@ function check(res, req) {
     checkCuisine(req)
     checkPriceRange(req)
     checkOpeningHours(req)
-    if (Object.keys(errors).length != 0) {
-        res.status(400).send(errors)
-    }
-    else {
-        res.status(200).send(data)
-    }
+
+    return [errors, data]
 }
 
 function checkDateSubmitted(req){

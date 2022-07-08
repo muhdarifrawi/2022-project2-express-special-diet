@@ -22,8 +22,16 @@ async function main(){
 
     app.post("/stalls",async function(req,res,next){
         
-        validate.check(res,req.body)
-        
+        let validated = validate.check(res,req.body)
+        let errors = validated[0]
+        let data = validated[1]
+        if (Object.keys(errors).length != 0) {
+            return res.status(400).send(errors)
+        }
+        else {
+            console.log(data)
+            return res.status(200).send(data)
+        }
     })
 
 }
