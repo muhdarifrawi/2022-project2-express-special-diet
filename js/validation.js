@@ -1,6 +1,7 @@
 let errors = {}
 
 function check(res, req) {
+    checkSubmittedBy(req)
     checkStallName(req)
     checkStallType(req)
     checkLocation(req)
@@ -13,6 +14,17 @@ function check(res, req) {
     }
     else {
         res.sendStatus(200)
+    }
+}
+
+function checkSubmittedBy(req) {
+    console.log(req)
+    let submittedBy = req.submittedBy
+    if (submittedBy.trim().length === 0) {
+        errors["submittedBy"] = "Submitted name cannot be left empty."
+    }
+    if (stallName.trim().length > 25) {
+        errors["submittedBy"] = "Submitted name entry is too long."
     }
 }
 
@@ -97,6 +109,7 @@ function checkPriceRange(req){
     }
 }
 
+// leave this out for now until we are sure where we want to upload our images.
 function checkImages(req){
     if(req.images != ""){
         
@@ -104,9 +117,7 @@ function checkImages(req){
 }
 
 function checkOpeningHours(req){
-    console.log("=========starts here ==============")
     let isUnsure = req.openingHours.filter(k => k.unsure == false)
-    console.log("isUnsure here:\n",isUnsure)
     isUnsure.forEach(e => {
         console.log(e.time)
         if(e.time.trim() == ""){

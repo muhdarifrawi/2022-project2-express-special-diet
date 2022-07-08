@@ -22,10 +22,6 @@ async function main(){
 
     app.post("/stalls",async function(req,res,next){
         
-        // console.log(req.body)
-        // let stallName = req.body.stallName
-
-        // let infoArr = [stallName]
         validate.check(res,req.body)
         
     })
