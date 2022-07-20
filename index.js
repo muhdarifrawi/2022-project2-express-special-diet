@@ -40,11 +40,22 @@ async function main() {
                 });
                 console.log(e);
             }
-
-            
         }
     })
 
+    app.get("/stalls", async function (req, res, next) {
+        let search = {}
+        try {
+            let result = await db.collection('stalls').find(search);
+            return res.status(200).send(await result.toArray())
+        }
+        catch (e) {
+            res.status(500).send({
+                error: "Internal server error. Please contact administrator"
+            });
+            console.log(e);
+        }
+    })
 }
 
 main()
