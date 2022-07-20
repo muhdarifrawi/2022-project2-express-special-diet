@@ -2,6 +2,7 @@ const express = require("express")
 require("dotenv").config()
 const MongoUtil = require("./MongoUtil")
 const MONGO_URI = process.env.MONGO_URI
+const { ObjectId } = require('mongodb');
 const cors = require("cors")
 const validate = require("./js/validation")
 
@@ -56,6 +57,21 @@ async function main() {
             console.log(e);
         }
     })
+
+    app.get("/stalls/:id", async function (req, res, next) {
+        try {
+            let result = await db.collection('stalls').findOne({
+                '_id': ObjectId(req.params.id)
+            })
+            return res.status(200).json(result)
+        }
+        catch (e) {
+            res.status(500).send({
+                error: "Internal server error. Please contact administrator"
+            });
+            console.log(e);
+        }
+    })    
 }
 
 main()
