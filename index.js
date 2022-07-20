@@ -98,6 +98,21 @@ async function main() {
             }
         }
     })
+
+    app.delete("/stalls/:id", async function (req, res, next) {
+        try {
+            let result = await db.collection('stalls').deleteOne({
+                '_id': ObjectId(req.params.id)
+            })
+            return res.status(200).json(result)
+        }
+        catch (e) {
+            res.status(500).send({
+                error: "Internal server error. Please contact administrator"
+            });
+            console.log(e);
+        }
+    })
 }
 
 main()
