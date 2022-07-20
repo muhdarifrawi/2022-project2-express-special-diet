@@ -71,7 +71,33 @@ async function main() {
             });
             console.log(e);
         }
-    })    
+    })
+    
+    app.put("/stalls/:id", async function (req, res, next) {
+        let validated = validate.check(res, req.body)
+        let errors = validated[0]
+        let data = validated[1]
+        if (Object.keys(errors).length != 0) {
+            return res.status(400).send(errors)
+        }
+        else {
+            try {
+                let result = await db.collection("stalls").updateOne({
+                    '_id': ObjectId(req.params.id)
+                },{
+                    '$set':data
+                });
+                console.log(data)
+                return res.status(200).json(result)
+            }
+            catch (e) {
+                res.status(500).send({
+                    error: "Internal server error. Please contact administrator"
+                });
+                console.log(e);
+            }
+        }
+    })
 }
 
 main()
