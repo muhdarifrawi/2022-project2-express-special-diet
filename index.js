@@ -40,9 +40,11 @@ async function main() {
                 });
                 console.log(e);
             }
-
-            
         }
+    })
+
+    app.get("/stalls", async function (req, res, next) {
+        return res.status(200).send({message:"requests sent."})
     })
 
 }
