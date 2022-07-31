@@ -117,7 +117,7 @@ async function main() {
 
 main()
 
-const PORT = process.env.port
+const PORT = process.env.PORT
 
 app.listen(PORT, function (err) {
     if (err) {
