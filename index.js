@@ -117,7 +117,9 @@ async function main() {
 
 main()
 
-app.listen(3000, function (err) {
+const PORT = process.env.port
+
+app.listen(PORT, function (err) {
     if (err) {
         console.log(err)
     }
