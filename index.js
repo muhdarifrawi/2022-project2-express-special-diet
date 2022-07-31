@@ -72,7 +72,7 @@ async function main() {
             console.log(e);
         }
     })
-    
+
     app.put("/stalls/:id", async function (req, res, next) {
         let validated = validate.check(res, req.body)
         let errors = validated[0]
@@ -84,8 +84,8 @@ async function main() {
             try {
                 let result = await db.collection("stalls").updateOne({
                     '_id': ObjectId(req.params.id)
-                },{
-                    '$set':data
+                }, {
+                    '$set': data
                 });
                 console.log(data)
                 return res.status(200).json(result)
@@ -122,7 +122,7 @@ app.listen(3000, function (err) {
         console.log(err)
     }
     else {
-        console.log("Server has started")
+        console.log("Server has started in port" + app.listen().address().port)
     }
 
 })
